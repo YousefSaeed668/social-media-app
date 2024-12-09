@@ -57,7 +57,6 @@ export const validateRequest = cache(
     // here do some comparison with the database session  and the cookies
 
     const result = await lucia.validateSession(sessionId);
-    console.log(result);
     try {
       if (result.session && result.session.fresh) {
         const sessionCookie = lucia.createSessionCookie(result.session.id);
