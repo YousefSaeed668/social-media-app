@@ -1,5 +1,7 @@
-import Image from "next/image";
-
 export default function Home() {
-  return <main>Front page</main>;
+  return (
+    <main className="">
+      <div className="w-full">Front page</div>
+    </main>
+  );
 }
