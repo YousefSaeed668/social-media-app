@@ -19,7 +19,7 @@ model User {
   avatarUrl    String?
   bio          String?
   sessions     Session[]
-  post         Post[]
+  posts        Post[]
 
   following Follow[] @relation("Following")
   followers Follow[] @relation("Followers")
