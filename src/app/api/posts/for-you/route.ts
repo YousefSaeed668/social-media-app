@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const curson = req.nextUrl.searchParams.get("cursor") || undefined;
+    const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
     const pageSize = 10;
     const { user } = await validateRequest();
 
@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
       include: getPostDataInclude(user.id),
       orderBy: { createdAt: "desc" },
       take: pageSize + 1,
-      cursor: curson ? { id: curson } : undefined,
+      cursor: cursor ? { id: cursor } : undefined,
     });
     const nextCursor =
       posts.length > pageSize ? posts[posts.length - 1].id : null;

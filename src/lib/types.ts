@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { Return } from "@prisma/client/runtime/library";
+
 export function getUserDataSelect(loggedInUserId: string) {
   return {
     id: true,
