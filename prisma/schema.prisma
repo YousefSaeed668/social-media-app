@@ -24,6 +24,7 @@ model User {
   following Follow[] @relation("Following")
   followers Follow[] @relation("Followers")
   createdAt DateTime @default(now())
+  likes     Like[]
 
   @@map("users")
 }
@@ -43,6 +44,7 @@ model Follow {
   followingId String
   following   User   @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
 
+  // make sure a user can only follow another user once
   @@unique([followerId, followingId])
   @@map("follows")
 }
@@ -55,6 +57,7 @@ model Post {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   attachments Media[]
   createdAt   DateTime @default(now())
+  likes       Like[]
 
   @@map("posts")
 }
@@ -74,4 +77,16 @@ model Media {
 enum MediaType {
   IMAGE
   VIDEO
+}
+
+model Like {
+  userId String
+  postId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  // make sure a user can only like a post once
+  @@unique([userId, postId])
+  @@map("likes")
 }

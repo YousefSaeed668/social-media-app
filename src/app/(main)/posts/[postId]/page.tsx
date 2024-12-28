@@ -9,7 +9,6 @@ import { getPostDataInclude, UserData } from "@/lib/types";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { title } from "process";
 import { cache, Suspense } from "react";
 
 interface pageProps {
@@ -30,6 +29,7 @@ export async function generateMetadata({ params: { postId } }: pageProps) {
   const { user } = await validateRequest();
   if (!user) return {};
   const post = await getPost(postId, user.id);
+  console.log(post);
   return {
     title: `${post.user.displayName}: ${post.content.slice(0, 50)}...`,
   };
