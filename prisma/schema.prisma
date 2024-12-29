@@ -26,6 +26,7 @@ model User {
   createdAt DateTime   @default(now())
   likes     Like[]
   bookmarks Bookmark[]
+  comments  Comment[]
 
   @@map("users")
 }
@@ -60,6 +61,7 @@ model Post {
   createdAt   DateTime   @default(now())
   likes       Like[]
   bookmarks   Bookmark[]
+  comments    Comment[]
 
   @@map("posts")
 }
@@ -79,6 +81,19 @@ model Media {
 enum MediaType {
   IMAGE
   VIDEO
+}
+
+model Comment {
+  id      String @id @default(cuid())
+  content String
+  userId  String
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("comments")
 }
 
 model Like {
