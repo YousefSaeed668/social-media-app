@@ -1,15 +1,15 @@
 import { useInView } from "react-intersection-observer";
 
-interface InfiniteScrollContainerProps extends React.PropsWithChildren {
+interface InfiniteScrollContainer extends React.PropsWithChildren {
   onBottomReached: () => void;
   className?: string;
 }
 
-export default function InfininteScrollContainer({
+export default function InfiniteScrollContainer({
   children,
   onBottomReached,
   className,
-}: InfiniteScrollContainerProps) {
+}: InfiniteScrollContainer) {
   const { ref } = useInView({
     rootMargin: "200px",
     onChange(inView) {
