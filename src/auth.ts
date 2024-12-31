@@ -1,4 +1,5 @@
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
+import { Google } from "arctic";
 import { Lucia, Session, User } from "lucia";
 import { cookies } from "next/headers";
 import { cache } from "react";
@@ -23,7 +24,6 @@ export const lucia = new Lucia(adapter, {
     };
   },
 });
-// this is how you extend the databaseUserAttributes type
 
 declare module "lucia" {
   interface Register {
@@ -39,6 +39,12 @@ interface DatabaseUserAttributes {
   avatarUrl: string | null;
   googleId: string | null;
 }
+
+export const google = new Google(
+  process.env.GOOGLE_CLIENT_ID!,
+  process.env.GOOGLE_CLIENT_SECRET!,
+  `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/callback/google`,
+);
 // cache here is for example i have multiple component in same page where i will get the session
 // so i will cache the session so that i dont have to call the api again and again for every component
 // but of course if i refresh the page then i have to call the api again to get the session
@@ -57,6 +63,7 @@ export const validateRequest = cache(
     // here do some comparison with the database session  and the cookies
 
     const result = await lucia.validateSession(sessionId);
+
     try {
       if (result.session && result.session.fresh) {
         const sessionCookie = lucia.createSessionCookie(result.session.id);
