@@ -4,12 +4,12 @@ import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { getUserDataSelect } from "@/lib/types";
 import {
-  updateUserProfileSchema,
-  updateUserProfileValues,
+  UpdateUserProfileSchema,
+  UpdateUserProfileValues,
 } from "@/lib/validation";
 
-export async function updateUserProfile(values: updateUserProfileValues) {
-  const validatedValues = updateUserProfileSchema.parse(values);
+export async function updateUserProfile(values: UpdateUserProfileValues) {
+  const validatedValues = UpdateUserProfileSchema.parse(values);
   const { user } = await validateRequest();
   if (!user) {
     throw new Error("Unauthorized");

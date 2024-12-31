@@ -24,12 +24,12 @@ export const createPostSchema = z.object({
   mediaIds: z.array(z.string()).max(5, "Cannot have more than 5 attachments"),
 });
 
-export const updateUserProfileSchema = z.object({
+export const UpdateUserProfileSchema = z.object({
   displayName: requiredString,
   bio: z.string().max(1000, "Must be 1000 characters or less"),
 });
 
-export type updateUserProfileValues = z.infer<typeof updateUserProfileSchema>;
+export type UpdateUserProfileValues = z.infer<typeof UpdateUserProfileSchema>;
 
 export const createCommentSchema = z.object({
   content: requiredString,

@@ -1,6 +1,6 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useUploadThing } from "@/lib/uploadthing";
-import { updateUserProfileValues } from "@/lib/validation";
+import { UpdateUserProfileValues } from "@/lib/validation";
 import {
   InfiniteData,
   QueryFilters,
@@ -21,7 +21,7 @@ export function useUpdateProfileMutation() {
       values,
       avatar,
     }: {
-      values: updateUserProfileValues;
+      values: UpdateUserProfileValues;
       avatar?: File;
     }) => {
       return Promise.all([
