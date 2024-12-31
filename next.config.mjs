@@ -15,6 +15,16 @@ const nextConfig = {
       },
     ],
   },
+  rewrites: () => {
+    return [
+      {
+        source: "/hashtag/:tag",
+        destination: "/search?q=%23:tag",
+      },
+    ];
+  },
+  //this is kind of redirect but not normal redirect because this will keep the original url
+  // this is for display what in /search route with other route like /hashtag
 };
 
 export default nextConfig;
