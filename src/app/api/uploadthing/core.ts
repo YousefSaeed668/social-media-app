@@ -27,10 +27,18 @@ export const fileRouter = {
         await new UTApi().deleteFiles(key);
       }
 
-      const newAvatarUrl = file.url.replace(
-        "/f/",
-        `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-      );
+      let newAvatarUrl = "";
+      if (file.url.includes("11vd0fta0n.ufs.sh")) {
+        newAvatarUrl = file.url.replace(
+          "11vd0fta0n.ufs.sh/f/",
+          `utfs.io/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
+        );
+      } else {
+        newAvatarUrl = file.url.replace(
+          "/f/",
+          `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
+        );
+      }
 
       await prisma.user.update({
         where: { id: metadata.user.id },
@@ -53,12 +61,21 @@ export const fileRouter = {
       return {};
     })
     .onUploadComplete(async ({ file }) => {
+      let fileUrl = "";
+      if (file.url.includes("11vd0fta0n.ufs.sh")) {
+        fileUrl = file.url.replace(
+          "11vd0fta0n.ufs.sh/f/",
+          `utfs.io/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
+        );
+      } else {
+        fileUrl = file.url.replace(
+          "/f/",
+          `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
+        );
+      }
       const media = await prisma.media.create({
         data: {
-          url: file.url.replace(
-            "/f/",
-            `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-          ),
+          url: fileUrl,
           type: file.type.startsWith("image") ? "IMAGE" : "VIDEO",
         },
       });
