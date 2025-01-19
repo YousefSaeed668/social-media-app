@@ -19,7 +19,6 @@ export const fileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       const oldAvatarUrl = metadata.user.avatarUrl;
-
       if (oldAvatarUrl) {
         const key = oldAvatarUrl.split(
           `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
@@ -27,11 +26,18 @@ export const fileRouter = {
 
         await new UTApi().deleteFiles(key);
       }
-
-      const newAvatarUrl = file.url.replace(
-        "/f/",
-        `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-      );
+      let newAvatarUrl = "";
+      if (file.url.includes("11vd0fta0n.ufs.sh")) {
+        newAvatarUrl = file.url.replace(
+          "11vd0fta0n.ufs.sh/f/",
+          `utfs.io/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
+        );
+      } else {
+        newAvatarUrl = file.url.replace(
+          "/f/",
+          `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
+        );
+      }
       await Promise.all([
         prisma.user.update({
           where: { id: metadata.user.id },
